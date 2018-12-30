@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Building Custom Linux Kernel! | Deep Code Dive</title>
+<meta name="generator" content="Jekyll v3.8.5" />
+<meta property="og:title" content="Building Custom Linux Kernel!" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Linux kernel is a nice piece of collaborative work developed by thousands of developers across the world. Hence it always feels proud to get our hands dirty with such art." />
+<meta property="og:description" content="Linux kernel is a nice piece of collaborative work developed by thousands of developers across the world. Hence it always feels proud to get our hands dirty with such art." />
+<link rel="canonical" href="http://localhost:4000/kernel/2018/12/27/building_custom_linux_kernel.html" />
+<meta property="og:url" content="http://localhost:4000/kernel/2018/12/27/building_custom_linux_kernel.html" />
+<meta property="og:site_name" content="Deep Code Dive" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-12-27T20:06:36+05:30" />
+<script type="application/ld+json">
+{"dateModified":"2018-12-27T20:06:36+05:30","datePublished":"2018-12-27T20:06:36+05:30","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/kernel/2018/12/27/building_custom_linux_kernel.html"},"headline":"Building Custom Linux Kernel!","url":"http://localhost:4000/kernel/2018/12/27/building_custom_linux_kernel.html","description":"Linux kernel is a nice piece of collaborative work developed by thousands of developers across the world. Hence it always feels proud to get our hands dirty with such art.","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Deep Code Dive" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Deep Code Dive</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Building Custom Linux Kernel!</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2018-12-27T20:06:36+05:30" itemprop="datePublished">Dec 27, 2018
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Linux kernel is a nice piece of collaborative work developed by thousands of developers across the world. Hence it always feels proud to get our hands dirty with such art.</p>
+
+<p>This post gives a begineer’s guide to how to compile the kernel in your system for the first time and install it.</p>
+
+<h4 id="get-the-kernel-sources">Get the kernel sources</h4>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://www.github.com/torvalds/linux.git
+</code></pre></div></div>
+
+<h4 id="build-the-dependencies">Build the dependencies</h4>
+<p>Install packages for compiler, curses, flex, bison, etc based on your linux distro</p>
+<ul>
+  <li>For <code class="highlighter-rouge">dnf/yum</code> based distro
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>dnf <span class="nb">install </span>bison automake autoconf flex ncurses-devel elfutils-libelf-devel make gcc elfutils-devel libunwind-devel xz-devel numactl-devel openssl-devel binutils-devel
+</code></pre></div>    </div>
+  </li>
+  <li>For <code class="highlighter-rouge">apt</code> based distro
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt <span class="nb">install </span>flex libncurses5 elfutils openssl libssl-dev automake bison pkg-config libncurses5-dev
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="configure-kernel">Configure kernel</h4>
+<p>Generally linux kernel has thousands of parameters and modules to be configured based on the system architecture.</p>
+
+<p>Linux kernel  maintains <code class="highlighter-rouge">.config</code> file in root folder of kernel source tree. One can use any editor to configure the file but the curses based builtin tool makes it easy to change any configurations.</p>
+
+<p>For begginer’s one can get default config file for x86_64 platform by below command, while for other architectures like PowerPC,MIPS,arm64,etc. look thorugh <code class="highlighter-rouge">arch/&lt;architecture name&gt;/configs/</code> folder to find proper name.</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make x86_64_defconfig
+</code></pre></div></div>
+<p>To traverse through the config file, just use <code class="highlighter-rouge">make menuconfig</code> command to fire up curses based window for easier navigation.</p>
+
+<h4 id="compile-kernel">Compile kernel</h4>
+<p>Compiling of kernel goes through compilation of several files which may take time in several minutes to hours in typical desktop systems. The make with <code class="highlighter-rouge">-j&lt;nr_threads&gt;</code> arguments helps out here by parallel building. <code class="highlighter-rouge">nproc</code> total CPUs in the system here.</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make <span class="nt">-j</span><span class="sb">`</span><span class="nb">nproc</span><span class="sb">`</span>
+</code></pre></div></div>
+
+<p>Once compiled succesfully, the output is a <code class="highlighter-rouge">vmlinux</code> file in the root directory which is basically the kernel.</p>
+
+<h4 id="installing-kernel">Installing kernel</h4>
+<ul>
+  <li>
+    <p>Kernel built vmlinux is the file which gets executed firstly after system boot, hence it cannot depend on any other code or library as it itself has the loader and linker. For this reason, the vmlinux file is statically build. The kernel installation gets done in three parts: installation of vmlinux, kernel modules and initrd image.</p>
+  </li>
+  <li>
+    <p>The vmlinux needs to copied at <code class="highlighter-rouge">/boot</code> partition along with its <code class="highlighter-rouge">System.map</code> and <code class="highlighter-rouge">.config</code> file as optional things.</p>
+  </li>
+  <li>
+    <p>The <code class="highlighter-rouge">vmlinux</code> contains module codes, which means it has capability to add some code to itself after it gets executed. This modules are basically drivers, energy governors, etc.  which needs to be added along ith the kernel. This can be invoked by <code class="highlighter-rouge">make modules_install</code> which will compile relevant modules configured using <code class="highlighter-rouge">.config</code> file and install it to <code class="highlighter-rouge">/lib/modules/</code> directory.</p>
+  </li>
+  <li>The system boot sequence is as follows:
+    <ol>
+      <li>The power on button invokes the system firmware/BIOS which in turn powers on motherboard components including disks.</li>
+      <li>The control is then passed on to the boot loader like GRUB/LILO seating in /boot partition of the disk. It is the one which provides options to select a kernel to be loaded.</li>
+      <li>The boot loader then invokes the initrd image which does mounting of several disk paritions like <code class="highlighter-rouge">/root</code>, <code class="highlighter-rouge">/home</code>/, <code class="highlighter-rouge">/swap</code>, etc. and boots vmlinux from there in.
+The initrd thus has to be generated using <code class="highlighter-rouge">mkinitrd</code> command and boot loader has to be updated for the new kernel addition.</li>
+    </ol>
+  </li>
+  <li>The Makefile does all the above three steps and updates the boot loader using below command
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>make <span class="nb">install</span>
+</code></pre></div>    </div>
+  </li>
+  <li><strong>Manual method</strong>
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make modules_install <span class="nt">-j</span><span class="sb">`</span><span class="nb">nproc</span><span class="sb">`</span>
+</code></pre></div>    </div>
+    <p>Get kernel-version-name from <code class="highlighter-rouge">/include/config/kernel.release</code> file.</p>
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkinitramfs <span class="nt">-o</span> initramfs-&lt;kernel-version-name&gt;.img &lt;kernel-version-name&gt;
+<span class="nb">cp </span>initramfs--&lt;kernel-version-name&gt;.img /boot
+<span class="nb">cp</span> .config /boot/config--&lt;kernel-version-name&gt;
+<span class="nb">cp </span>System.map /boot/System.map--&lt;kernel-version-name&gt;
+<span class="nb">cp </span>vmlinux /boot/vmlinuz--&lt;kernel-version-name&gt;
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="booting-new-kernel">Booting new kernel</h4>
+<ul>
+  <li>If succesfully installed the new kernel, then one can reboot the system and find the kernel with its version installed in boot loader. Just select that kernel to start the system with your new kernel.
+After system start one can use <code class="highlighter-rouge">uname -a</code> to find the current kernel info.</li>
+  <li>Other way to start the new kernel is to build custom initrd from above manual steps and invoke below command
+    <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kexec ./vmlinux <span class="s2">"./initrd.img"</span> <span class="nt">--append</span><span class="o">=</span><span class="s2">"</span><span class="sb">`</span><span class="nb">cat</span> /proc/cmdline<span class="sb">`</span><span class="s2">"</span>
+</code></pre></div>    </div>
+    <p>The advantage of above kexec command is that it will load the new kernel without rebooting the system. Also even with just modul installation step only one can test this kernel without updating boot loader or <code class="highlighter-rouge">/boot</code> partition.</p>
+  </li>
+</ul>
+
+
+  </div><a class="u-url" href="/kernel/2018/12/27/building_custom_linux_kernel.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Deep Code Dive</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Deep Code Dive</li><li><a class="u-email" href="mailto:parths1229@gmail.com">parths1229@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/parthsl"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">parthsl</span></a></li><li><a href="https://www.twitter.com/parthsl"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">parthsl</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Performance, Kernel programming, hacking and debugging.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
