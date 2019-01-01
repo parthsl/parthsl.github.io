@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2019-01-01T17:19:54+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Deep Code Dive</title><subtitle>Performance, Kernel programming, hacking and debugging.</subtitle><entry><title type="html">Traversing My Learning Curve!</title><link href="http://localhost:4000/index/2018/12/31/traversing_my_learning_curve.html" rel="alternate" type="text/html" title="Traversing My Learning Curve!" /><published>2018-12-31T21:26:36+05:30</published><updated>2018-12-31T21:26:36+05:30</updated><id>http://localhost:4000/index/2018/12/31/traversing_my_learning_curve</id><content type="html" xml:base="http://localhost:4000/index/2018/12/31/traversing_my_learning_curve.html">&lt;h3 id=&quot;topic-to-understand&quot;&gt;Topic to understand&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2019-01-01T17:34:50+05:30</updated><id>http://localhost:4000/feed.xml</id><title type="html">Deep Code Dive</title><subtitle>Performance, Kernel programming, hacking and debugging.</subtitle><entry><title type="html">Traversing My Learning Curve!</title><link href="http://localhost:4000/index/2018/12/31/traversing_my_learning_curve.html" rel="alternate" type="text/html" title="Traversing My Learning Curve!" /><published>2018-12-31T21:26:36+05:30</published><updated>2018-12-31T21:26:36+05:30</updated><id>http://localhost:4000/index/2018/12/31/traversing_my_learning_curve</id><content type="html" xml:base="http://localhost:4000/index/2018/12/31/traversing_my_learning_curve.html">&lt;h3 id=&quot;topic-to-understand&quot;&gt;Topic to understand&lt;/h3&gt;
 &lt;ol&gt;
   &lt;li&gt;Linux Kernel compilation&lt;/li&gt;
-  &lt;li&gt;Building compiler toolchain&lt;/li&gt;
+  &lt;li&gt;Building compiler toolchain.&lt;a href=&quot;https://preshing.com/20141119/how-to-build-a-gcc-cross-compiler/&quot; target=&quot;_blank&quot;&gt;Manual way&lt;/a&gt;, &lt;a href=&quot;https://crosstool-ng.github.io/&quot; target=&quot;_blank&quot;&gt;crosstool-ng&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Cross compiling kernel&lt;/li&gt;
-  &lt;li&gt;Building own gcc compiler&lt;/li&gt;
+  &lt;li&gt;Building own gcc compiler.&lt;/li&gt;
   &lt;li&gt;Building cross  compiler for ARM64 and PowerPC targets&lt;/li&gt;
   &lt;li&gt;Mastering git&lt;/li&gt;
   &lt;li&gt;Using qemu (console based) for fun
@@ -20,8 +20,8 @@
   &lt;li&gt;Mastering bash shell and shell scripts.&lt;/li&gt;
   &lt;li&gt;ssh reverse tunneling&lt;/li&gt;
   &lt;li&gt;Writing device drivers&lt;/li&gt;
-  &lt;li&gt;Writing custom JIT compilers&lt;/li&gt;
-  &lt;li&gt;Writing custom malloc function(independent of glibc)&lt;/li&gt;
+  &lt;li&gt;Writing custom JIT compilers &lt;a href=&quot;http://blog.reverberate.org/2012/12/hello-jit-world-joy-of-simple-jits.html_&quot; target=&quot;_blank&quot;&gt;Hello World&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Writing custom malloc function(independent of glibc) &lt;a href=&quot;https://github.com/parthsl/tools/tree/master/Memory_allocator&quot; target=&quot;_blank&quot;&gt;URL&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;Workload tuning
     &lt;ul&gt;
       &lt;li&gt;TLB cache optimization&lt;/li&gt;
@@ -64,7 +64,7 @@
       &lt;li&gt;manually kernel installation and booting&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;Understand several benchmarks
+  &lt;li&gt;Understand several benchmarks &lt;a href=&quot;https://github.com/parthsl/tools/tree/master/benchmarks&quot; target=&quot;_blank&quot;&gt;URL&lt;/a&gt;
     &lt;ul&gt;
       &lt;li&gt;stream triad : For L1,L2 and LLC cache size&lt;/li&gt;
       &lt;li&gt;stress-ng : Swiss knife of many benchmarks&lt;/li&gt;
@@ -73,13 +73,25 @@
       &lt;li&gt;redis : In-memory single thread database benchmark&lt;/li&gt;
       &lt;li&gt;YCSB : PLugin based database benchmarking system&lt;/li&gt;
       &lt;li&gt;SPEC : int and float based benchmark suite(2006 and 2017 versions)&lt;/li&gt;
+      &lt;li&gt;schbench and hackbench : scheduler wakeup latency benchmarking&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Lock Optimization
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;http://lucteo.ro/2018/11/18/look-ma-no-locks/&quot; target=&quot;_blank&quot;&gt;No lock ds&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Chip Energy Measurement
+    &lt;ul&gt;
+      &lt;li&gt;[CPU Energy Meter] (https://github.com/parthsl/tools/tree/master/cpu-energy-meter){:target=”_blank”}&lt;/li&gt;
+      &lt;li&gt;[Intel specific] (https://github.com/parthsl/tools/tree/master/RAPL_Energy_measurement){:target=”_blank”}&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;h4 id=&quot;stay-tuned-for-more-info-on-each-topic&quot;&gt;Stay tuned for more info on each topic!!!!&lt;/h4&gt;
 
-&lt;h4 id=&quot;you-can-google-out-this-topic-for-better-understanding-if-you-are-eager-to-learn-fast&quot;&gt;You can google out this topic for better understanding if you are eager to learn fast.&lt;/h4&gt;</content><author><name></name></author><summary type="html">Topic to understand Linux Kernel compilation Building compiler toolchain Cross compiling kernel Building own gcc compiler Building cross compiler for ARM64 and PowerPC targets Mastering git Using qemu (console based) for fun Creating VM for x86_64, arm64, ppc64, etc. Creating network devices ftp, smba folder mounting from host to guest os 9p file system virtual bridging Using gnu debugger(GDB) Using qemu to debug kernel Mastering bash shell and shell scripts. ssh reverse tunneling Writing device drivers Writing custom JIT compilers Writing custom malloc function(independent of glibc) Workload tuning TLB cache optimization Hugepages Hyper threading tuning Vectorization(AVX-512 and Altivec) Scaling across multi-cores and many-cores GPU offloading MPI+OpenMP tuning for multi-processing with multi-threading for ditributed multi-core processing Performance debugging and tracing perf tool ftrace kdump voltron gdb Berkely packet filter Custom initrd file creation Compiling for native system as well as for cross-comilation Writing own boot firmware for x86 systems kernel scheduler optimization Performance optimization throughput and latency oriented by fair scheduling energy impact due to scheduler CPUFREQ(P-States) and CPUIDLE(C-states) task packing Pandaboard based omap4 booting Booting debian os on omap4 board kernel compilation manually kernel installation and booting Understand several benchmarks stream triad : For L1,L2 and LLC cache size stress-ng : Swiss knife of many benchmarks TSPLIB : NP-Hard TSP based dataset rt-app : Configurable AOSP based workload generator redis : In-memory single thread database benchmark YCSB : PLugin based database benchmarking system SPEC : int and float based benchmark suite(2006 and 2017 versions)</summary></entry><entry><title type="html">Building Custom Linux Kernel!</title><link href="http://localhost:4000/kernel/2018/12/27/building_custom_linux_kernel.html" rel="alternate" type="text/html" title="Building Custom Linux Kernel!" /><published>2018-12-27T20:06:36+05:30</published><updated>2018-12-27T20:06:36+05:30</updated><id>http://localhost:4000/kernel/2018/12/27/building_custom_linux_kernel</id><content type="html" xml:base="http://localhost:4000/kernel/2018/12/27/building_custom_linux_kernel.html">&lt;p&gt;Linux kernel is a nice piece of collaborative work developed by thousands of developers across the world. Hence it always feels proud to get our hands dirty with such art.&lt;/p&gt;
+&lt;h4 id=&quot;you-can-google-out-this-topic-for-better-understanding-if-you-are-eager-to-learn-fast&quot;&gt;You can google out this topic for better understanding if you are eager to learn fast.&lt;/h4&gt;</content><author><name></name></author><summary type="html">Topic to understand Linux Kernel compilation Building compiler toolchain.Manual way, crosstool-ng Cross compiling kernel Building own gcc compiler. Building cross compiler for ARM64 and PowerPC targets Mastering git Using qemu (console based) for fun Creating VM for x86_64, arm64, ppc64, etc. Creating network devices ftp, smba folder mounting from host to guest os 9p file system virtual bridging Using gnu debugger(GDB) Using qemu to debug kernel Mastering bash shell and shell scripts. ssh reverse tunneling Writing device drivers Writing custom JIT compilers Hello World Writing custom malloc function(independent of glibc) URL Workload tuning TLB cache optimization Hugepages Hyper threading tuning Vectorization(AVX-512 and Altivec) Scaling across multi-cores and many-cores GPU offloading MPI+OpenMP tuning for multi-processing with multi-threading for ditributed multi-core processing Performance debugging and tracing perf tool ftrace kdump voltron gdb Berkely packet filter Custom initrd file creation Compiling for native system as well as for cross-comilation Writing own boot firmware for x86 systems kernel scheduler optimization Performance optimization throughput and latency oriented by fair scheduling energy impact due to scheduler CPUFREQ(P-States) and CPUIDLE(C-states) task packing Pandaboard based omap4 booting Booting debian os on omap4 board kernel compilation manually kernel installation and booting Understand several benchmarks URL stream triad : For L1,L2 and LLC cache size stress-ng : Swiss knife of many benchmarks TSPLIB : NP-Hard TSP based dataset rt-app : Configurable AOSP based workload generator redis : In-memory single thread database benchmark YCSB : PLugin based database benchmarking system SPEC : int and float based benchmark suite(2006 and 2017 versions) schbench and hackbench : scheduler wakeup latency benchmarking Lock Optimization No lock ds Chip Energy Measurement [CPU Energy Meter] (https://github.com/parthsl/tools/tree/master/cpu-energy-meter){:target=”_blank”} [Intel specific] (https://github.com/parthsl/tools/tree/master/RAPL_Energy_measurement){:target=”_blank”}</summary></entry><entry><title type="html">Building Custom Linux Kernel!</title><link href="http://localhost:4000/kernel/2018/12/27/building_custom_linux_kernel.html" rel="alternate" type="text/html" title="Building Custom Linux Kernel!" /><published>2018-12-27T20:06:36+05:30</published><updated>2018-12-27T20:06:36+05:30</updated><id>http://localhost:4000/kernel/2018/12/27/building_custom_linux_kernel</id><content type="html" xml:base="http://localhost:4000/kernel/2018/12/27/building_custom_linux_kernel.html">&lt;p&gt;Linux kernel is a nice piece of collaborative work developed by thousands of developers across the world. Hence it always feels proud to get our hands dirty with such art.&lt;/p&gt;
 
 &lt;p&gt;This post gives a begineer’s guide to how to compile the kernel in your system for the first time and install it.&lt;/p&gt;
 
