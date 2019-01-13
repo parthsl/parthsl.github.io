@@ -15,7 +15,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2019-01-06T00:00:00+05:30" />
 <script type="application/ld+json">
-{"dateModified":"2019-01-06T00:00:00+05:30","datePublished":"2019-01-06T00:00:00+05:30","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/index/2019/01/06/pthread_locks.html"},"headline":"Pthread locks: Mutex vs Spilocks vs Futex!","url":"http://localhost:4000/index/2019/01/06/pthread_locks.html","description":"Locking During multi-threading or multi-processing, the biggest challenge is selecting types of locks. When writing C code, one can manually write their own locking mechanism or can use glibc wrappers for Mutex and spinlocks.","@context":"http://schema.org"}</script>
+{"headline":"Pthread locks: Mutex vs Spilocks vs Futex!","dateModified":"2019-01-06T00:00:00+05:30","datePublished":"2019-01-06T00:00:00+05:30","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/index/2019/01/06/pthread_locks.html"},"url":"http://localhost:4000/index/2019/01/06/pthread_locks.html","description":"Locking During multi-threading or multi-processing, the biggest challenge is selecting types of locks. When writing C code, one can manually write their own locking mechanism or can use glibc wrappers for Mutex and spinlocks.","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Deep Code Dive" /></head>
 <body><header class="site-header" role="banner">
@@ -66,7 +66,8 @@
 
 <h1 id="programic-view">Programic view</h1>
 <hr />
-<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><span class="cp">#include &lt;stdio.h&gt;
 #include &lt;pthread.h&gt;
 #include &lt;unistd.h&gt;
 #include &lt;sys/syscall.h&gt;
@@ -197,8 +198,8 @@
 #endif
 </span>
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
+<span class="p">}</span></code></pre></figure>
+
 <p><strong>or <a href="https://github.com/parthsl/tools/tree/master/Programming_logic/Locks_in_pthreads">Github</a></strong></p>
 
 <h2 id="analysis-of-locking-in-c-mutex-vs-spinlocks-vs-futex">Analysis of Locking in C: Mutex vs Spinlocks vs Futex</h2>
