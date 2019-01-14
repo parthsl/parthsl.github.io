@@ -101,6 +101,9 @@ mov DWORD PTR fooa[rip], eax
 
 <p>The instructions are placed such that <code class="highlighter-rouge">foob</code> is set to 0 first and then <code class="highlighter-rouge">fooa</code> to +1 to that. This demonstrates that the instruction being re-ordered during compilation.</p>
 
+<h3 id="memory-barrier-in-gcc">Memory barrier in gcc</h3>
+<p>Well now try with  <code class="highlighter-rouge">gcc foo.c -S -masm=intel -O2 -Dmbarrier</code>; <code class="highlighter-rouge">cat foo.s</code> and see the result of pre-assembly. Surprised!!! And the instructions are prohibited from re-ordering even before assembling out.</p>
+
 <h5 id="note-gcc-is-smart-compiler-and-so-it-will-be-difficult-to-find-this-problem-in-final-assembly-generated-to-verify-compile-the-code-with-gcc-fooc--o2--g-followed-by-objdump--ds-aout--less-to-see-the-final-generated-assembly-code-once-can-see-the-instructions-getting-re-ordered-there-as-well-but-task-dependencies-are-resolved">Note: gcc is smart compiler and so it will be difficult to find this problem in final assembly generated. To verify, compile the code with <code class="highlighter-rouge">gcc foo.c -O2 -g</code> followed by <code class="highlighter-rouge">objdump -dS a.out | less</code> to see the final generated assembly code. Once can see the instructions getting re-ordered there as well but task dependencies are resolved.</h5>
 
 <h2 id="out-of-order-execution">Out of order Execution</h2>
@@ -181,7 +184,7 @@ A = 2;
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java <span class="nt">-XX</span>:+UnlockDiagnosticVMOptions <span class="nt">-XX</span>:+PrintAssembly <span class="nt">-XX</span>:PrintAssemblyOptions<span class="o">=</span>intel foo
 </code></pre></div></div>
 
-<h5 id="if-you-face-problems-related-to-hsdis-shared-object-then-you-may-have-to-manually-build-one-or-download-one-for-x86-from-here">If you face problems related to <code class="highlighter-rouge">hsdis</code> shared object then you may have to manually build one. <strong>Or download one for x86 from <a href="https://github.com/parthsl/tools/blob/master/misc_scripts/hsdis-amd64.so">here</a></strong>.</h5>
+<h5 id="if-you-face-problems-related-to-hsdis-shared-object-then-you-may-have-to-manually-build-one-or-download-one-for-x86-from-here-use-command-ld_library_pathpath-to-hsdis-amd64so-java--xxunlockdiagnosticvmoptions--xxprintassembly--xxprintassemblyoptionsintel-foo">If you face problems related to <code class="highlighter-rouge">hsdis</code> shared object then you may have to manually build one. <strong>Or download one for x86 from <a href="https://github.com/parthsl/tools/blob/master/misc_scripts/hsdis-amd64.so">here</a></strong>. Use command <code class="highlighter-rouge">LD_LIBRARY_PATH=&lt;path-to-hsdis-amd64.so&gt; java -XX:+UnlockDiagnosticVMOptions -XX:+PrintAssembly -XX:PrintAssemblyOptions=intel foo</code></h5>
 
 <p>This gave me long output from which I extracted important part:</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0x00007f816918c1c4: mov    DWORD PTR [r10+0x14],0x2  ;*putfield c
